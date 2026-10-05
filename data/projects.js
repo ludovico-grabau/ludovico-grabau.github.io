@@ -26,10 +26,10 @@ window.PROJECTS = [
   /* ================================================================ MSc */
   {
     id: 'msc-thesis',
-    metrics: ['85.5 % balanced accuracy, 5 classes', '94.1 % with confidence gate', '9 decoders benchmarked', 'Real-time closed loop'],
+    metrics: ['85.5 % balanced accuracy, 5 classes', '94.1 % with confidence gate', '9 decoders benchmarked', 'Real-time brain-to-command pipeline'],
     level: 'msc', kind: 'Thesis',
     title: 'Steering a gait-rehabilitation robot with dry-electrode EEG',
-    summary: 'Master thesis: benchmarking nine decoders that turn brain signals into walking directions, and running the best one in a real-time closed loop.',
+    summary: 'Master thesis: benchmarking nine decoders that turn brain signals into walking directions, and running the best one in a real-time pipeline from brain signal to robot command.',
     institution: 'University of Bern · BFH neuro-rehaLab', course: 'Master thesis (MSc AI in Medicine)',
     period: 'Mar – Sep 2026', date: '2026-09',
     team: 'Solo · supervised by Prof. S. Mougiakakou, Prof. J. Fang, Dr. L. Brigato',
@@ -38,7 +38,7 @@ window.PROJECTS = [
     description: [
       'After a stroke or spinal-cord injury, walking is relearned through repetition, and rehabilitation works best when the patient actively drives the movement. This thesis builds a non-invasive brain–computer interface: a dry-electrode EEG headset (Wearable Sensing DSI-24) reads the user’s intention (idle, forward, backward, left or right) and a mobile, gravity-supported gait trainer moves accordingly.',
       'I compared nine time-series decoders under matched tuning budgets (120-trial Optuna search, multi-seed training): a classical FBCSP + LDA pipeline, four networks trained from scratch (EEGNet, TimesNet, iTransformer, S-Mamba), three pretrained EEG foundation models (Neuro-GPT, CBraMod, LaBraM, each in its own native preprocessing, frozen, LoRA and fully fine-tuned) and Chronos as a non-physiological control. Each was evaluated under three protocols: a within-subject ceiling, leave-recordings-out cross-validation (the deployment axis) and cross-person transfer.',
-      'TimesNet reached 85.5 % ± 2.1 % balanced accuracy on five classes (chance 20 %), within 2.7 points of five other decoders. After multiple-comparison correction no pairwise difference was significant. A confidence gate lifts accuracy on retained windows to 94.1 %. EEG pretraining matched but did not beat the best from-scratch models, cross-person transfer stayed near chance (per-patient calibration remains necessary), and the compact EEGNet was the most data-efficient. Every model runs more than ten times faster than the 0.5 s decision cadence, and the full loop was demonstrated on the mini-juAndago robotic surrogate.'
+      'TimesNet reached 85.5 % ± 2.1 % balanced accuracy on five classes (chance 20 %), within 2.7 points of five other decoders. After multiple-comparison correction no pairwise difference was significant. A confidence gate lifts accuracy on retained windows to 94.1 %. EEG pretraining matched but did not beat the best from-scratch models, cross-person transfer stayed near chance (per-patient calibration remains necessary), and the compact EEGNet was the most data-efficient. Every model runs more than ten times faster than the 0.5 s decision cadence, and the full pipeline, from brain signal to robot command, was demonstrated on the mini-juAndago robotic surrogate.'
     ],
     highlights: [
       '85.5 % balanced accuracy (5 classes) on honest leave-recordings-out CV; 94.1 % with the confidence gate',

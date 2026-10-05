@@ -75,7 +75,7 @@ window.MEDIA = {
   },
   {
    "type": "image",
-   "caption": "The mecanum-wheel mini-juAndago used as the closed-loop surrogate platform",
+   "caption": "The mecanum-wheel mini-juAndago, the surrogate robot driven by the live pipeline",
    "src": "media/msc-thesis/09-img-372d1d.webp",
    "thumb": "media/msc-thesis/09-img-372d1d.thumb.webp",
    "w": 1600,

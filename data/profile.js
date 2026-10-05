@@ -16,7 +16,7 @@ window.PROFILE = {
     'At the University of Bern I specialised in machine learning for healthcare: computer vision, deep learning, ' +
       'NLP for clinical text, reinforcement learning, signal processing, neurotechnology and omics. My master thesis, ' +
       'run at the BFH neuro-rehaLab, benchmarks nine EEG decoders, from a classical spatial-filtering pipeline to EEG foundation ' +
-      'models, and ships the best one in a closed-loop brain-computer interface.',
+      'models, and ships the best one in a real-time brain-computer interface that turns EEG into robot commands.',
     'I care about rigorous evaluation (honest cross-validation, calibrated confidence, real-time constraints) and ' +
       'about making systems that other people can set up, run and trust.'
   ],
