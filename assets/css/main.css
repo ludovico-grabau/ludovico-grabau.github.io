@@ -1,7 +1,7 @@
 /* ==========================================================================
    Ludovico Grabau, CV & portfolio
    Rebuilt in 2026 from my 2022 HEPIA template: same teal accent, Baloo Da 2
-   headings, bracket-animated navigation, tilt cards and scroll-to-top button.
+   headings, bracket-animated navigation and scroll-to-top button.
    ========================================================================== */
 
 /* ---------- Tokens ------------------------------------------------------ */
@@ -233,10 +233,9 @@ section { padding: 96px 0 24px; }
 .feature {
   position: relative; display: flex; flex-direction: column; text-align: left; cursor: pointer;
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
-  padding: 0; transition: border-color .2s, box-shadow .2s, transform .2s;
+  padding: 0; transition: border-color .2s, box-shadow .2s;
 }
-/* the 1px ring outside the border makes the hover outline 2px wide (no layout shift), so it stays
-   a smooth accent line instead of breaking into dark specks while the card tilts */
+/* the 1px ring outside the border makes the hover outline 2px wide without shifting the layout */
 .feature:hover { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
 .feature .cover { aspect-ratio: 16 / 9; background: var(--surface-2); overflow: hidden; }
 .feature .cover img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
@@ -339,7 +338,7 @@ section { padding: 96px 0 24px; }
 .card {
   display: flex; flex-direction: column; text-align: left; cursor: pointer; padding: 0;
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
-  transition: border-color .2s, box-shadow .2s, transform .25s ease; transform-style: preserve-3d; will-change: transform;
+  transition: border-color .2s, box-shadow .2s;
 }
 .card:hover { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), var(--shadow); }  /* 2px outline, see .feature */
 .card .cover { position: relative; aspect-ratio: 16 / 10; background: var(--surface-2); overflow: hidden; }

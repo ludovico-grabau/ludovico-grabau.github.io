@@ -19,7 +19,6 @@
     'concurrency-c': 'concurrency-shortest-paths', 'distributed-systems': 'distributed-broadcast',
     'android-apps': 'android-findmygoomba', 'math-labs': 'math-fourier', 'unibe-machine-learning': 'unibe-ml-regression'
   };
-  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const media = (p) => MEDIA[p.id] || [];
   const visuals = (p) => media(p).filter((m) => m.type !== 'file');
@@ -120,7 +119,6 @@
     grid.innerHTML = current.map(card).join('');
     $('#empty').hidden = current.length > 0;
     $('#resultCount').textContent = `${current.length} of ${PROJECTS.length} projects`;
-    attachTilt(grid.querySelectorAll('.card'));
   }
   const pressOnly = (group, pred) => group.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(pred(x))));
 
@@ -149,20 +147,6 @@
     $('#projects').scrollIntoView();
   });
   render();
-
-  /* ---------- tilt (vanilla version of the tilt.js effect from 2022) ---------- */
-  function attachTilt(nodes) {
-    if (reduceMotion || matchMedia('(hover: none)').matches) return;
-    nodes.forEach((el) => {
-      el.addEventListener('pointermove', (e) => {
-        const r = el.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
-        el.style.transform = `perspective(900px) rotateX(${(-y * 6).toFixed(2)}deg) rotateY(${(x * 6).toFixed(2)}deg) translateY(-3px)`;
-      });
-      el.addEventListener('pointerleave', () => { el.style.transform = ''; });
-    });
-  }
-  attachTilt(document.querySelectorAll('.feature'));
 
   /* ---------- project dialog ---------- */
   const dlg = $('#projectDialog');
