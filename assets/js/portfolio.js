@@ -56,7 +56,7 @@
     return `<button class="feature reveal" type="button" data-open="${p.id}">
       <div class="${coverClass(p)}">${coverHTML(p, big ? 'full' : 'thumb')}${big ? badges(p) : ''}</div>
       <div class="body">
-        <span class="meta">${esc(p.kind)} · ${esc(p.institution)} · ${esc(p.period)}</span>
+        <span class="meta">${big ? '' : `${esc(p.kind)} · `}${esc(p.institution)} · ${esc(p.period)}</span>
         <h3>${esc(p.title)}</h3>
         <p>${esc(p.summary)}</p>
         ${big ? `<div class="metrics">${metrics}</div>` : ''}

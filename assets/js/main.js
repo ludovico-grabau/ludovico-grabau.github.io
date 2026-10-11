@@ -31,7 +31,6 @@
   const onScroll = () => {
     const y = window.scrollY;
     nav.classList.toggle('scrolled', y > 10);
-    if (y > 40) document.body.classList.add('scrolled-once');
     toTop.classList.toggle('show', y > 700);
   };
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -148,18 +147,17 @@
   });
   $('#year').textContent = new Date().getFullYear();
 
-  /* ---- scroll-linked details: reading bar, timeline progress, vital-sign pulse paused off screen ---- */
+  /* ---- scroll-linked details: timeline progress, vital-sign pulse paused off screen ---- */
   const hero = $('.hero'), timeline = $('#timeline');
   const clamp01 = (v) => Math.min(1, Math.max(0, v));
   let queued = false;
   function frame() {
     queued = false;
     // read everything first, then write, so one frame never forces two layouts
-    const vh = window.innerHeight, max = document.documentElement.scrollHeight - vh;
+    const vh = window.innerHeight;
     const heroBottom = hero.getBoundingClientRect().bottom;
     const tl = timeline.getBoundingClientRect(), line = vh * 0.62;
     const lit = [...timeline.children].map((li) => li.getBoundingClientRect().top + 24 < line);
-    nav.style.setProperty('--read', max > 0 ? (window.scrollY / max).toFixed(4) : '0');
     hero.classList.toggle('offscreen', heroBottom < 0);
     timeline.style.setProperty('--tl-p', clamp01((line - tl.top) / tl.height).toFixed(3));
     [...timeline.children].forEach((li, i) => li.classList.toggle('lit', lit[i]));

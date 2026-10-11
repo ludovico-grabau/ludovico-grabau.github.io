@@ -58,7 +58,6 @@
     <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></symbol>
     <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
     <symbol id="i-up" viewBox="0 0 24 24"><path d="m6 14 6-6 6 6"/></symbol>
-    <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 10 6 6 6-6"/></symbol>
     <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
     <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
     <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
@@ -122,14 +121,13 @@
           </div>
         </div>
         <div class="stats" id="stats"></div>
-        <!-- vital-sign trace: draws once, then a pulse runs along it; the cue below leads to Highlights -->
-        <a class="vitals" href="#work" aria-label="Scroll to the highlights">
+        <!-- vital-sign trace: draws once, then a pulse runs along it -->
+        <div class="vitals" aria-hidden="true">
           <svg class="trace" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
             <path class="trace-line" pathLength="1" d="M0 34L130 34Q140 25 150 34L176 34L181 41L187 5L193 53L199 34L214 34Q230 21 246 34L440 34Q450 25 460 34L486 34L491 41L497 5L503 53L509 34L524 34Q540 21 556 34L750 34Q760 25 770 34L796 34L801 41L807 5L813 53L819 34L834 34Q850 21 866 34L1040 34Q1050 25 1060 34L1086 34L1091 41L1097 5L1103 53L1109 34L1124 34Q1140 21 1156 34L1200 34"/>
             <path class="trace-pulse" pathLength="1" d="M0 34L130 34Q140 25 150 34L176 34L181 41L187 5L193 53L199 34L214 34Q230 21 246 34L440 34Q450 25 460 34L486 34L491 41L497 5L503 53L509 34L524 34Q540 21 556 34L750 34Q760 25 770 34L796 34L801 41L807 5L813 53L819 34L834 34Q850 21 866 34L1040 34Q1050 25 1060 34L1086 34L1091 41L1097 5L1103 53L1109 34L1124 34Q1140 21 1156 34L1200 34"/>
           </svg>
-          <span class="cue">Highlights <svg class="icon"><use href="#i-down"/></svg></span>
-        </a>
+        </div>
       </div>
     </section>
 
