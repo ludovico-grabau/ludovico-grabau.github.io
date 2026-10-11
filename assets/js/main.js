@@ -58,12 +58,14 @@
   $('#yearsCount').textContent = `~${new Date().getFullYear() - P.codingSince}`;
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const statsBox = $('#stats');
+  // each box links to its section; the project counts open the collection with the matching degree filter
   statsBox.innerHTML = [
-    [projects.length, 'projects documented'],
-    [count('msc'), 'from the MSc at UniBE'],
-    [count('bsc'), 'from the BSc at HEPIA'],
-    [P.languages.length, 'languages spoken']
-  ].map(([n, l]) => `<div class="stat"><span>${esc(l)}</span><b data-count="${n}">${reduceMotion.matches ? n : 0}</b></div>`).join('');
+    [projects.length, 'projects documented', '#projects', 'all'],
+    [count('msc'), 'from the MSc at UniBE', '#projects', 'msc'],
+    [count('bsc'), 'from the BSc at HEPIA', '#projects', 'bsc'],
+    [P.languages.length, 'languages spoken', '#languages']
+  ].map(([n, l, href, level]) => `<a class="stat" href="${href}"${level ? ` data-filter-level="${level}"` : ''}>
+      <span>${esc(l)}</span><b data-count="${n}">${reduceMotion.matches ? n : 0}</b>${icon('arrow', 'go')}</a>`).join('');
   // the numbers count up like a monitor readout the first time they are seen
   const counter = new IntersectionObserver((entries) => {
     if (!entries.some((en) => en.isIntersecting)) return;
@@ -146,38 +148,26 @@
   });
   $('#year').textContent = new Date().getFullYear();
 
-  /* ---- scroll stage: the intro shrinks while Highlights slides over it; timeline progress; reading bar ---- */
-  const hero = $('.hero'), work = $('#work'), timeline = $('#timeline');
+  /* ---- scroll-linked details: reading bar, timeline progress, vital-sign pulse paused off screen ---- */
+  const hero = $('.hero'), timeline = $('#timeline');
   const clamp01 = (v) => Math.min(1, Math.max(0, v));
-  let heroH = 0, queued = false;
+  let queued = false;
   function frame() {
     queued = false;
     // read everything first, then write, so one frame never forces two layouts
     const vh = window.innerHeight, max = document.documentElement.scrollHeight - vh;
-    const workTop = work.getBoundingClientRect().top;
+    const heroBottom = hero.getBoundingClientRect().bottom;
     const tl = timeline.getBoundingClientRect(), line = vh * 0.62;
     const lit = [...timeline.children].map((li) => li.getBoundingClientRect().top + 24 < line);
     nav.style.setProperty('--read', max > 0 ? (window.scrollY / max).toFixed(4) : '0');
-    if (!reduceMotion.matches) {
-      const span = Math.min(heroH, vh), p = clamp01((span - workTop) / span);
-      hero.style.setProperty('--shrink', p.toFixed(3));
-      work.style.setProperty('--grow', p.toFixed(3));
-      hero.classList.toggle('covered', p >= 1);  // pauses the vital-sign pulse while hidden
-    }
+    hero.classList.toggle('offscreen', heroBottom < 0);
     timeline.style.setProperty('--tl-p', clamp01((line - tl.top) / tl.height).toFixed(3));
     [...timeline.children].forEach((li, i) => li.classList.toggle('lit', lit[i]));
   }
-  function measure() {
-    heroH = hero.offsetHeight;
-    // pin the intro once its bottom reaches the bottom of the screen, so a tall intro still scrolls fully
-    hero.style.setProperty('--hero-top', `${Math.min(0, window.innerHeight - heroH)}px`);
-    frame();
-  }
   window.addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(frame); } }, { passive: true });
-  window.addEventListener('resize', measure);
-  window.addEventListener('load', measure);
-  if (document.fonts) document.fonts.ready.then(measure);
-  measure();
+  window.addEventListener('resize', frame);
+  window.addEventListener('load', frame);
+  frame();
 
   /* ---- reveal on scroll ---- */
   const revealer = new IntersectionObserver((entries) => {

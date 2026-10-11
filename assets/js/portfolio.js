@@ -147,6 +147,15 @@
     render();
     $('#projects').scrollIntoView();
   });
+  // the intro's project counts link here with a degree filter: start from a clean view with that filter
+  document.addEventListener('click', (e) => {
+    const f = e.target.closest('[data-filter-level]'); if (!f) return;
+    Object.assign(state, { level: f.dataset.filterLevel, domain: null, q: '', skill: null });
+    $('#search').value = '';
+    pressOnly($('#levelFilter'), (x) => x.dataset.level === state.level);
+    pressOnly($('#domainChips'), () => false);
+    render();
+  });
   render();
 
   /* ---------- project dialog ---------- */

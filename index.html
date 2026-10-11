@@ -94,8 +94,6 @@
   </header>
 
   <main id="main">
-    <!-- Intro and Highlights share one scroll stage: the intro stays pinned and shrinks while Highlights slides over it -->
-    <div class="intro-stage">
     <!-- Hero -->
     <section class="hero" id="top">
       <div class="wrap">
@@ -119,8 +117,8 @@
           <div class="portrait">
             <div class="portrait-bg"></div>
             <img id="photo" src="assets/img/ludovico-grabau.webp" alt="Portrait of Ludovico Grabau" width="640" height="911" fetchpriority="high">
-            <div class="p-badge b1"><b id="yearsCount">~10</b>years of programming</div>
-            <div class="p-badge b2"><b id="badgeCount">100</b>projects documented</div>
+            <a class="p-badge b1" href="#experience"><b id="yearsCount">~10</b>years of programming</a>
+            <a class="p-badge b2" href="#projects" data-filter-level="all"><b id="badgeCount">100</b>projects documented</a>
           </div>
         </div>
         <div class="stats" id="stats"></div>
@@ -147,7 +145,6 @@
         <div class="featured-small" id="featuredSmall"></div>
       </div>
     </section>
-    </div>
 
     <!-- About -->
     <section id="about">
@@ -159,7 +156,7 @@
           </div>
           <div class="about-text" id="aboutText"></div>
         </div>
-        <aside class="panel reveal">
+        <aside class="panel reveal" id="languages">
           <h3>Languages</h3>
           <ul class="lang-list" id="langList"></ul>
         </aside>
