@@ -31,6 +31,7 @@
   const onScroll = () => {
     const y = window.scrollY;
     nav.classList.toggle('scrolled', y > 10);
+    if (y > 40) document.body.classList.add('scrolled-once');
     toTop.classList.toggle('show', y > 700);
   };
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -55,12 +56,28 @@
   $('#badgeCount').textContent = projects.length;
   // approximate years of programming, counted from PROFILE.codingSince
   $('#yearsCount').textContent = `~${new Date().getFullYear() - P.codingSince}`;
-  $('#stats').innerHTML = [
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  const statsBox = $('#stats');
+  statsBox.innerHTML = [
     [projects.length, 'projects documented'],
     [count('msc'), 'from the MSc at UniBE'],
     [count('bsc'), 'from the BSc at HEPIA'],
     [P.languages.length, 'languages spoken']
-  ].map(([n, l]) => `<div class="stat"><b>${n}</b><span>${esc(l)}</span></div>`).join('');
+  ].map(([n, l]) => `<div class="stat"><span>${esc(l)}</span><b data-count="${n}">${reduceMotion.matches ? n : 0}</b></div>`).join('');
+  // the numbers count up like a monitor readout the first time they are seen
+  const counter = new IntersectionObserver((entries) => {
+    if (!entries.some((en) => en.isIntersecting)) return;
+    counter.disconnect();
+    const nums = [...statsBox.querySelectorAll('[data-count]')];
+    const t0 = performance.now() + 700;  // starts as the strip finishes fading in
+    const tick = (t) => {
+      const k = Math.min(1, Math.max(0, (t - t0) / 1100)), e = 1 - Math.pow(1 - k, 3);
+      nums.forEach((b) => { b.textContent = Math.round(e * b.dataset.count); });
+      if (k < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }, { threshold: 0.4 });
+  if (!reduceMotion.matches) counter.observe(statsBox);
 
   /* ---- about ---- */
   $('#aboutText').innerHTML = P.about.map((p) => `<p>${esc(p)}</p>`).join('');
@@ -68,11 +85,14 @@
 
   /* ---- experience ---- */
   $('#timeline').innerHTML = P.experience.map((x) => `
-    <li class="tl-item">
-      <div class="tl-head"><h3>${esc(x.title)}</h3><span class="org">${esc(x.org)}</span></div>
-      <div class="tl-when">${esc(x.period)} · ${esc(x.place)}</div>
-      <ul>${x.points.map((p) => `<li>${esc(p)}</li>`).join('')}</ul>
-      ${x.project ? `<button class="tl-link" type="button" data-open="${esc(x.project)}">See the project ${icon('arrow')}</button>` : ''}
+    <li class="tl-item reveal">
+      <div class="tl-when"><span class="tl-date">${esc(x.period)}</span><span class="tl-place">${esc(x.place)}</span></div>
+      <div class="tl-node" aria-hidden="true"></div>
+      <article class="tl-card">
+        <div class="tl-head"><h3>${esc(x.title)}</h3><span class="org">${esc(x.org)}</span></div>
+        <ul>${x.points.map((p) => `<li>${esc(p)}</li>`).join('')}</ul>
+        ${x.project ? `<button class="tl-link" type="button" data-open="${esc(x.project)}">See the project ${icon('arrow')}</button>` : ''}
+      </article>
     </li>`).join('');
 
   /* ---- education ---- */
@@ -98,7 +118,7 @@
     tops.forEach((t) => { t.style.minHeight = ''; });
     const sideBySide = getComputedStyle($('#eduGrid')).gridTemplateColumns.trim().split(/\s+/).length > 1;
     if (!sideBySide || tops.length < 2) return;
-    const h = Math.max(...tops.map((t) => t.getBoundingClientRect().height));
+    const h = Math.max(...tops.map((t) => t.offsetHeight));  // layout height: ignores the reveal's scale
     tops.forEach((t) => { t.style.minHeight = `${h}px`; });
   }
   alignEdu();
@@ -125,6 +145,39 @@
     window.location.href = `mailto:${L.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   });
   $('#year').textContent = new Date().getFullYear();
+
+  /* ---- scroll stage: the intro shrinks while Highlights slides over it; timeline progress; reading bar ---- */
+  const hero = $('.hero'), work = $('#work'), timeline = $('#timeline');
+  const clamp01 = (v) => Math.min(1, Math.max(0, v));
+  let heroH = 0, queued = false;
+  function frame() {
+    queued = false;
+    // read everything first, then write, so one frame never forces two layouts
+    const vh = window.innerHeight, max = document.documentElement.scrollHeight - vh;
+    const workTop = work.getBoundingClientRect().top;
+    const tl = timeline.getBoundingClientRect(), line = vh * 0.62;
+    const lit = [...timeline.children].map((li) => li.getBoundingClientRect().top + 24 < line);
+    nav.style.setProperty('--read', max > 0 ? (window.scrollY / max).toFixed(4) : '0');
+    if (!reduceMotion.matches) {
+      const span = Math.min(heroH, vh), p = clamp01((span - workTop) / span);
+      hero.style.setProperty('--shrink', p.toFixed(3));
+      work.style.setProperty('--grow', p.toFixed(3));
+      hero.classList.toggle('covered', p >= 1);  // pauses the vital-sign pulse while hidden
+    }
+    timeline.style.setProperty('--tl-p', clamp01((line - tl.top) / tl.height).toFixed(3));
+    [...timeline.children].forEach((li, i) => li.classList.toggle('lit', lit[i]));
+  }
+  function measure() {
+    heroH = hero.offsetHeight;
+    // pin the intro once its bottom reaches the bottom of the screen, so a tall intro still scrolls fully
+    hero.style.setProperty('--hero-top', `${Math.min(0, window.innerHeight - heroH)}px`);
+    frame();
+  }
+  window.addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(frame); } }, { passive: true });
+  window.addEventListener('resize', measure);
+  window.addEventListener('load', measure);
+  if (document.fonts) document.fonts.ready.then(measure);
+  measure();
 
   /* ---- reveal on scroll ---- */
   const revealer = new IntersectionObserver((entries) => {

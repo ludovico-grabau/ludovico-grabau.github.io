@@ -51,9 +51,10 @@
 
   /* ---------- featured ---------- */
   function featureCard(p, big) {
-    const metrics = big ? (p.metrics || []).map((m) => `<span class="chip accent">${esc(m)}</span>`).join('') : '';
+    // key results in warm colour, popping in one after the other when the card appears
+    const metrics = big ? (p.metrics || []).map((m, i) => `<span class="chip warm" style="--k:${i}">${esc(m)}</span>`).join('') : '';
     return `<button class="feature reveal" type="button" data-open="${p.id}">
-      <div class="${coverClass(p)}">${coverHTML(p, big ? 'full' : 'thumb')}</div>
+      <div class="${coverClass(p)}">${coverHTML(p, big ? 'full' : 'thumb')}${big ? badges(p) : ''}</div>
       <div class="body">
         <span class="meta">${esc(p.kind)} · ${esc(p.institution)} · ${esc(p.period)}</span>
         <h3>${esc(p.title)}</h3>

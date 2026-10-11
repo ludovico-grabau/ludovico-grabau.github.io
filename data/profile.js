@@ -32,12 +32,12 @@ window.PROFILE = {
     linkedin: 'https://www.linkedin.com/in/ludovico-grabau',
     github: 'https://github.com/ludovico-grabau'
   },
-  // Set to a PDF path (e.g. 'assets/cv/CV_Ludovico_Grabau.pdf') to show a "Download CV" button.
-  cv: null,
+  // PDF behind the "Download CV" button (null hides the button). Web copy without the phone number.
+  cv: 'assets/cv/Ludovico_Grabau_CV.pdf',
 
   experience: [
     {
-      title: 'Master thesis researcher',
+      title: 'Master thesis & research assistant',
       org: 'BFH neuro-rehaLab & UniBE ARTORG Center',
       place: 'Biel / Bern',
       period: 'Mar 2026 – Sep 2026',
@@ -49,7 +49,7 @@ window.PROFILE = {
       project: 'msc-thesis'
     },
     {
-      title: 'Neuroengineer intern & research assistant',
+      title: 'Neuroengineer intern',
       org: 'neuro-rehaLab, Bern University of Applied Sciences (BFH)',
       place: 'Biel/Bienne',
       period: 'Jul 2025 – Aug 2025',
@@ -97,7 +97,7 @@ window.PROFILE = {
       project: 'stock-prediction'
     },
     {
-      title: 'Web design intern',
+      title: 'UX & UI intern',
       org: 'Cyber Resilience Suisse',
       place: 'Gland',
       period: 'Aug 2018 (one month)',

@@ -58,6 +58,7 @@
     <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></symbol>
     <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
     <symbol id="i-up" viewBox="0 0 24 24"><path d="m6 14 6-6 6 6"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 10 6 6 6-6"/></symbol>
     <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
     <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
     <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
@@ -71,7 +72,7 @@
 
   <header class="nav" id="nav">
     <div class="wrap">
-      <a class="brand" href="#top" aria-label="Ludovico Grabau, back to top"><span class="brand-mark">LG</span><span>Ludovico Grabau</span></a>
+      <a class="brand" href="#top" aria-label="Ludovico Grabau, back to top"><span class="brand-mark"><svg class="mesh" viewBox="0 0 24 24" aria-hidden="true"><path class="edges" d="M4 6.4L12 3.6M4 6.4L12 9.2M4 6.4L12 14.8M4 6.4L12 20.4M4 12L12 3.6M4 12L12 9.2M4 12L12 14.8M4 12L12 20.4M4 17.6L12 3.6M4 17.6L12 9.2M4 17.6L12 14.8M4 17.6L12 20.4M12 3.6L20 9.2M12 3.6L20 14.8M12 9.2L20 9.2M12 9.2L20 14.8M12 14.8L20 9.2M12 14.8L20 14.8M12 20.4L20 9.2M12 20.4L20 14.8"/><g class="nodes"><circle cx="4" cy="6.4" r="1.9"/><circle cx="4" cy="12" r="1.9"/><circle cx="4" cy="17.6" r="1.9"/><circle cx="12" cy="3.6" r="1.9"/><circle cx="12" cy="9.2" r="1.9"/><circle cx="12" cy="14.8" r="1.9"/><circle cx="12" cy="20.4" r="1.9"/><circle cx="20" cy="9.2" r="1.9"/><circle cx="20" cy="14.8" r="1.9"/></g></svg></span><span>Ludovico Grabau</span></a>
       <nav aria-label="Main">
         <ul class="menu" id="menu">
           <li><a href="#work">Work</a></li>
@@ -93,23 +94,25 @@
   </header>
 
   <main id="main">
+    <!-- Intro and Highlights share one scroll stage: the intro stays pinned and shrinks while Highlights slides over it -->
+    <div class="intro-stage">
     <!-- Hero -->
     <section class="hero" id="top">
       <div class="wrap">
         <div class="hero-grid">
-          <div>
+          <div class="hero-copy">
             <span class="eyebrow">CV &amp; Portfolio</span>
             <h1>Ludovico Grabau</h1>
             <p class="role" data-bind="role">Medical AI Researcher · ML Engineer · Computer Scientist</p>
             <p class="pitch" data-bind="pitch">MSc in Artificial Intelligence in Medicine (University of Bern) and BSc in Computer Science (HEPIA Geneva).</p>
             <div class="hero-actions">
+              <a class="btn btn-warm" id="cvBtn" hidden download><svg class="icon"><use href="#i-download"/></svg> Download CV</a>
               <a class="btn btn-primary" href="#projects">Explore all projects <svg class="icon"><use href="#i-arrow"/></svg></a>
               <a class="btn btn-ghost" href="#contact"><svg class="icon"><use href="#i-mail"/></svg> Contact me</a>
-              <a class="btn btn-ghost" id="cvBtn" hidden download><svg class="icon"><use href="#i-download"/></svg> Download CV</a>
             </div>
             <div class="hero-meta">
               <span><svg class="icon"><use href="#i-pin"/></svg> Geneva, Switzerland</span>
-              <span><svg class="icon"><use href="#i-globe"/></svg> French · English · Italian · German</span>
+              <span><svg class="icon"><use href="#i-globe"/></svg> French · English · Italian</span>
               <span><svg class="icon"><use href="#i-cap"/></svg> MSc UniBE 2026 · BSc HEPIA 2023</span>
             </div>
           </div>
@@ -121,6 +124,14 @@
           </div>
         </div>
         <div class="stats" id="stats"></div>
+        <!-- vital-sign trace: draws once, then a pulse runs along it; the cue below leads to Highlights -->
+        <a class="vitals" href="#work" aria-label="Scroll to the highlights">
+          <svg class="trace" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
+            <path class="trace-line" pathLength="1" d="M0 34L130 34Q140 25 150 34L176 34L181 41L187 5L193 53L199 34L214 34Q230 21 246 34L440 34Q450 25 460 34L486 34L491 41L497 5L503 53L509 34L524 34Q540 21 556 34L750 34Q760 25 770 34L796 34L801 41L807 5L813 53L819 34L834 34Q850 21 866 34L1040 34Q1050 25 1060 34L1086 34L1091 41L1097 5L1103 53L1109 34L1124 34Q1140 21 1156 34L1200 34"/>
+            <path class="trace-pulse" pathLength="1" d="M0 34L130 34Q140 25 150 34L176 34L181 41L187 5L193 53L199 34L214 34Q230 21 246 34L440 34Q450 25 460 34L486 34L491 41L497 5L503 53L509 34L524 34Q540 21 556 34L750 34Q760 25 770 34L796 34L801 41L807 5L813 53L819 34L834 34Q850 21 866 34L1040 34Q1050 25 1060 34L1086 34L1091 41L1097 5L1103 53L1109 34L1124 34Q1140 21 1156 34L1200 34"/>
+          </svg>
+          <span class="cue">Highlights <svg class="icon"><use href="#i-down"/></svg></span>
+        </a>
       </div>
     </section>
 
@@ -136,6 +147,7 @@
         <div class="featured-small" id="featuredSmall"></div>
       </div>
     </section>
+    </div>
 
     <!-- About -->
     <section id="about">
@@ -161,7 +173,7 @@
           <span class="eyebrow">Experience</span>
           <h2><span class="br">[</span> Work &amp; research <span class="br">]</span></h2>
         </div>
-        <ol class="timeline reveal" id="timeline"></ol>
+        <ol class="timeline" id="timeline"></ol>
       </div>
     </section>
 
