@@ -307,8 +307,9 @@ a.p-badge:hover { border-color: var(--accent); color: var(--text-2); }
 @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 
 /* ---------- Featured ---------------------------------------------------- */
-/* Highlights fits on one screen: the two theses put their picture beside the text, the four projects below stay smaller */
-#work { padding-top: 56px; }
+/* Highlights fits on one screen: the two theses stay big (picture on top), the four projects below are compact tiles;
+   shorter screens get flatter pictures and shorter summaries (see the max-height queries under Responsive) */
+#work { padding-top: 28px; }
 #work .section-head { margin-bottom: 26px; }
 .featured-main { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .featured-small { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 18px; }
@@ -330,18 +331,20 @@ a.p-badge:hover { border-color: var(--accent); color: var(--text-2); }
 .feature .metrics .chip { white-space: normal; opacity: 0; }
 .feature.in .metrics .chip { animation: pop .45s cubic-bezier(.2, .8, .3, 1.3) both; animation-delay: calc(.35s + var(--k, 0) * .12s); }
 @keyframes pop { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: none; } }
-.featured-main .feature { flex-direction: row; }
-.featured-main .feature .cover { aspect-ratio: auto; width: 32%; flex: none; }
-.featured-main .feature .cover > img { position: absolute; inset: 0; }   /* the text sets the height, the picture fills it */
-.featured-main .feature .body { padding: 16px 18px 18px; gap: 7px; min-width: 0; }
-.featured-main .feature h3 { font-size: 1.16rem; }
-.featured-main .feature .meta { font-size: .78rem; }
-.featured-main .feature p { font-size: .9rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.featured-main .feature .metrics { gap: 5px; padding-top: 2px; }
-.featured-main .feature .metrics .chip { font-size: .72rem; padding: 2px 8px; }
-.featured-small .feature h3 { font-size: 1.08rem; }
-.featured-small .feature .body { padding: 14px 16px 16px; gap: 6px; }
-.featured-small .feature p { font-size: .9rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.featured-main .feature .cover { aspect-ratio: 2.1 / 1; }
+.featured-main .feature .cover img { object-position: 50% 30%; }   /* keeps faces and speech bubbles in the crop */
+.featured-main .feature .body { padding: 16px 20px 18px; gap: 8px; }
+.featured-main .feature h3 { font-size: 1.3rem; }
+.featured-main .feature p { font-size: .95rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.featured-main .feature .metrics .chip { font-size: .76rem; }
+/* project tiles: small picture left, kind / place / date and title right; the summary is in the viewer */
+.featured-small .feature { flex-direction: row; min-height: 104px; }
+.featured-small .feature .cover { aspect-ratio: auto; width: 34%; flex: none; }
+.featured-small .feature .cover > * { position: absolute; inset: 0; }
+.featured-small .feature .body { padding: 10px 12px; gap: 4px; justify-content: center; }
+.featured-small .feature .meta { font-size: .74rem; }
+.featured-small .feature h3 { font-size: .98rem; }
+.featured-small .feature p { display: none; }
 
 /* ---------- About ------------------------------------------------------- */
 .about-grid { display: grid; grid-template-columns: 1.4fr .9fr; gap: 40px; align-items: start; }
@@ -602,21 +605,19 @@ footer .social { display: flex; gap: 10px; }
   .featured-small { grid-template-columns: repeat(2, 1fr); }
   .skills-grid { grid-template-columns: repeat(2, 1fr); }
 }
-/* short laptop screens: compact Highlights further so both rows still fit on one screen */
-@media (min-width: 901px) and (max-height: 860px) {
-  #work { padding-top: 40px; }
+/* screens too short for the full Highlights: flatter thesis pictures and shorter summaries */
+@media (min-width: 901px) and (max-height: 944px) {
   #work .section-head { margin-bottom: 18px; }
   #work .section-head p { display: none; }
-  .featured-main { gap: 14px; }
-  .featured-small { margin-top: 14px; }
-  .featured-small .feature .cover { aspect-ratio: 2 / 1; }
-  .featured-small .feature p { -webkit-line-clamp: 1; }
+  .featured-main .feature .cover { aspect-ratio: 2.8 / 1; }
+  .featured-main .feature .body { padding: 14px 18px 16px; gap: 7px; }
+  .featured-main .feature h3 { font-size: 1.22rem; }
+  .featured-main .feature p { font-size: .93rem; -webkit-line-clamp: 2; }
+  .featured-main .feature .metrics .chip { font-size: .74rem; }
 }
-@media (min-width: 901px) and (max-height: 760px) {
-  #work { padding-top: 32px; }
+@media (min-width: 901px) and (max-height: 789px) {
+  .featured-main .feature .cover { aspect-ratio: 3.4 / 1; }
   .featured-main .feature p { -webkit-line-clamp: 1; }
-  .featured-small .feature .cover { aspect-ratio: 2.4 / 1; }
-  .featured-small .feature p { display: none; }
 }
 @media (max-width: 900px) {
   .menu {
@@ -635,9 +636,6 @@ footer .social { display: flex; gap: 10px; }
   .dlg-body { padding: 18px 16px 24px; }
 }
 @media (max-width: 700px) {
-  .featured-main .feature { flex-direction: column; }
-  .featured-main .feature .cover { width: auto; aspect-ratio: 16 / 9; }
-  .featured-main .feature .cover > img { position: static; }
   .timeline { --tl-node: 28px; }
   .timeline::before, .timeline::after { left: calc(var(--tl-node) / 2 - 1px); top: 8px; }
   .timeline::before { bottom: 8px; }
