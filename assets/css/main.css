@@ -316,8 +316,7 @@ a.p-badge:hover { border-color: var(--accent); color: var(--text-2); }
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
   padding: 0; transition: border-color .2s, box-shadow .2s;
 }
-/* the 1px ring outside the border makes the hover outline 2px wide without shifting the layout */
-.feature:hover { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.feature:hover { border-color: var(--accent); }
 .feature .cover { position: relative; aspect-ratio: 16 / 9; background: var(--surface-2); overflow: hidden; }
 .feature .cover img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
 .feature:hover .cover img { transform: scale(1.04); }
@@ -453,7 +452,7 @@ a.p-badge:hover { border-color: var(--accent); color: var(--text-2); }
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
   transition: border-color .2s, box-shadow .2s;
 }
-.card:hover { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), var(--shadow); }  /* 2px outline, see .feature */
+.card:hover { border-color: var(--accent); box-shadow: var(--shadow); }
 .card .cover { position: relative; aspect-ratio: 16 / 10; background: var(--surface-2); overflow: hidden; }
 .card .cover img, .feature .cover img { width: 100%; height: 100%; object-fit: cover; }
 .cover.contain { background: #fff; }
@@ -594,7 +593,7 @@ footer .social { display: flex; gap: 10px; }
 
 /* ---------- Hover: the card being looked at grows slightly (no tilt) ----- */
 .feature, .card, .tl-card { transition: opacity .6s ease, transform .3s cubic-bezier(.2, .7, .2, 1), border-color .2s, box-shadow .2s; }
-.tl-card:hover { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), var(--shadow); }
+.tl-card:hover { border-color: var(--accent); box-shadow: var(--shadow); }
 @media (hover: hover) {
   .feature:hover, .card:hover { transform: scale(1.03); z-index: 2; }
   .tl-card:hover { transform: scale(1.015); z-index: 2; }
