@@ -192,16 +192,42 @@
     }
   }
 
-  /* ---- one-screen sections: a section whose content fits the window gets equal blank space above and below,
-         so there is a scroll position where it fills the view alone (no snapping: the scroll stays free) ---- */
+  /* ---- one-screen sections: a section whose content fits the window gets just enough blank space around it
+         that, centred under the nav, the content before it ends at the nav and the next content starts at the
+         bottom edge: it fills the view alone, with no extra gap (no snapping: the scroll stays free) ---- */
   const centred = ['#about', '#education', '#contact'].map((id) => $(id));
-  const port = () => window.innerHeight - (parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0);
+  const docTop = (el) => { let y = 0; for (let e = el; e; e = e.offsetParent) y += e.offsetTop; return y; };   // ignores reveal transforms
+  let adjusted = [];   // elements whose spacing was changed last time, reset before measuring again
   function placeRests() {
-    const desktop = matchMedia('(min-width: 901px)').matches;
+    adjusted.forEach((el) => { el.style.paddingTop = el.style.paddingBottom = el.style.scrollMarginTop = ''; });
+    adjusted = [];
+    if (!matchMedia('(min-width: 901px)').matches) return;
+    const navH = nav.offsetHeight, padTop = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
     centred.forEach((sec) => {
-      sec.style.paddingTop = sec.style.paddingBottom = '';
-      const room = port() - sec.querySelector('.wrap').offsetHeight;
-      if (desktop && room >= 48) sec.style.paddingTop = sec.style.paddingBottom = `${room / 2}px`;
+      const wrap = sec.querySelector('.wrap'), blank = (window.innerHeight - navH - wrap.offsetHeight) / 2;
+      if (blank < 24) return;   // does not fit one screen: normal spacing
+      // gaps that already exist between this section and the content before / after it
+      const nextSec = sec.nextElementSibling;
+      const prev = sec.previousElementSibling?.querySelector('.wrap') || sec.previousElementSibling;
+      const next = nextSec?.querySelector('.wrap') || document.querySelector('footer .wrap');
+      const top = docTop(sec), bottom = top + sec.offsetHeight;
+      const gapBefore = prev ? top - (docTop(prev) + prev.offsetHeight) : 0;
+      const gapAfter = next ? docTop(next) - bottom : 0;
+      sec.style.paddingTop = `${Math.max(0, blank - gapBefore)}px`;
+      sec.style.paddingBottom = `${Math.max(0, blank - gapAfter)}px`;
+      // the next section's own top spacing can exceed the blank needed: trim it so the hand-over stays tight
+      if (nextSec && gapAfter > blank) {
+        nextSec.style.paddingTop = `${parseFloat(getComputedStyle(nextSec).paddingTop) - (gapAfter - blank)}px`;
+        adjusted.push(nextSec);
+      }
+      // a nav link lands on the centred view: the content before it just under the nav
+      sec.style.scrollMarginTop = `${navH + gapBefore - padTop}px`;
+      adjusted.push(sec);
+      // the last section needs room below it so the page can scroll far enough to centre it
+      if (!nextSec) {
+        const target = docTop(sec) - gapBefore - navH, max = document.documentElement.scrollHeight - window.innerHeight;
+        if (target > max) sec.style.paddingBottom = `${parseFloat(sec.style.paddingBottom) + target - max}px`;
+      }
     });
   }
 
