@@ -398,8 +398,10 @@ a.p-badge:hover { border-color: var(--accent); color: var(--text-2); }
 .edu .period { color: var(--muted); font-size: .9rem; }
 .edu h3 { font-size: 1.3rem; }
 .edu .school { color: var(--accent); font-weight: 700; }
-.edu .thesis { color: var(--text-2); }
-.edu .thesis b { color: var(--text); }
+.edu .thesis, .edu .gpa { color: var(--text-2); }
+.edu .thesis b, .edu .gpa b { color: var(--text); }
+.edu .thesis { margin-bottom: 0; }   /* the GPA line sits right under the thesis */
+.edu .gpa { margin: 0; }
 .edu details { border-top: 1px solid var(--line); padding-top: 12px; margin-top: 4px; }
 .edu summary { cursor: pointer; font-weight: 700; color: var(--text); list-style: none; display: flex; align-items: center; gap: 8px; }
 .edu summary::-webkit-details-marker { display: none; }

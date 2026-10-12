@@ -111,6 +111,7 @@
         <h3>${esc(d.degree)}</h3>
         <span class="school">${esc(d.school)}</span>
         <p class="thesis"><b>Thesis:</b> ${esc(d.thesis)}</p>
+        ${d.gpa ? `<p class="gpa"><b>GPA:</b> ${esc(d.gpa)}</p>` : ''}
         <div class="edu-cta"><button class="btn btn-ghost" type="button" data-open="${esc(d.thesisProject)}">Open the thesis ${icon('arrow')}</button></div>
       </div>
       <details>

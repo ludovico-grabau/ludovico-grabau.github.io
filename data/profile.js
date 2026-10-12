@@ -115,6 +115,7 @@ window.PROFILE = {
       place: 'Bern',
       period: 'Sep 2024 – Sep 2026',
       thesis: 'Benchmarking Decoders for Directional Intent Control of a Mobile Gait Trainer Using a Dry-Electrode EEG-Based BCI',
+      gpa: '5.2/6',
       thesisProject: 'msc-thesis',
       courses: [
         { term: 'Autumn 2024', list: ['Machine Learning', 'Computer Vision', 'Introduction to AI', 'Applied Optimization', 'Introduction to Digital Signal Processing', 'Basics of Physiology', 'Introduction to Clinics', 'Linear Algebra, Probability & Optimization (bridging)'] },
@@ -128,7 +129,8 @@ window.PROFILE = {
       school: 'HEPIA, Geneva School of Landscape, Engineering and Architecture',
       place: 'Geneva',
       period: 'Sep 2020 – Sep 2023',
-      thesis: 'AI & conversational agents in a narrative 3D experience (Unity + GPT)',
+      thesis: 'Large Language Models as Conversational Agents in 3D Narrative Experiences',
+      gpa: '5.1/6',
       thesisProject: 'bsc-thesis',
       courses: [
         { term: 'Year 1', list: ['Sequential Programming in C', 'Algorithms', 'Computer Architecture', 'Logic Systems', 'Microcontroller Programming', 'Embedded Systems Prototyping', 'Mathematics for IT', 'Applied Mathematics', 'Physics for Engineering', 'Network Fundamentals', 'Telecommunications Fundamentals', 'Information Security & Cryptography', 'History & Society of Computing'] },
