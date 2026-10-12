@@ -175,6 +175,50 @@
   window.addEventListener('load', frame);
   frame();
 
+  /* ---- intro on short screens: shrink the empty space in the intro just enough that everything down to the
+         ECG trace is visible on arrival (same view as scrolling down a little; text and sizes never change).
+         Gaps are trimmed in order: above the intro, above the numbers row, above the trace. ---- */
+  const statsRow = $('#stats'), vitals = $('.vitals');
+  function fitIntro() {
+    for (const el of [hero, statsRow, vitals]) { el.style.paddingTop = ''; el.style.marginTop = ''; }
+    if (!matchMedia('(min-width: 901px)').matches) return;   // phones stack the intro: it is taller than any screen
+    // layout positions (offsetTop ignores the intro's fade-in transform); 12px of air under the trace
+    let excess = hero.offsetTop + vitals.offsetTop + vitals.offsetHeight + 12 - window.innerHeight;
+    const gaps = [[hero, 'paddingTop', nav.offsetHeight + 16], [statsRow, 'marginTop', 24], [vitals, 'marginTop', 10]];
+    for (const [el, prop, min] of gaps) {
+      if (excess <= 0) break;
+      const now = parseFloat(getComputedStyle(el)[prop]), cut = Math.min(excess, Math.max(0, now - min));
+      el.style[prop] = `${now - cut}px`; excess -= cut;
+    }
+  }
+
+  /* ---- resting points: a section whose content fits one screen gets equal blank space above and below, so at
+         its snap point (CSS snaps to .rest) it sits centred with nothing else in view; long sections scroll freely ---- */
+  const restSections = ['#about', '#education', '#contact'].map((id) => $(id));
+  const workSection = $('#work'), eduSection = $('#education');
+  const port = () => window.innerHeight - (parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0);
+  function placeRests() {
+    const on = matchMedia('(min-width: 901px)').matches && !reduceMotion.matches;
+    restSections.forEach((sec) => {
+      sec.style.paddingTop = sec.style.paddingBottom = '';
+      const room = port() - sec.querySelector('.wrap').offsetHeight, fits = on && room >= 48;
+      if (fits) sec.style.paddingTop = sec.style.paddingBottom = `${room / 2}px`;
+      sec.classList.toggle('rest', fits);
+    });
+    // the intro and Highlights are already sized for one screen: they only need the resting point
+    hero.classList.toggle('rest', on && hero.offsetTop + vitals.offsetTop + vitals.offsetHeight <= window.innerHeight);
+    workSection.classList.toggle('rest', on && workSection.offsetHeight - parseFloat(getComputedStyle(workSection).paddingBottom) <= port());
+  }
+  // an open course list makes Degrees taller than the screen: stop resting there (the spacing stays, nothing jumps)
+  $('#eduGrid').addEventListener('toggle', () => {
+    if (eduSection.style.paddingTop) eduSection.classList.toggle('rest', eduSection.offsetHeight <= port() + 1);
+  }, true);
+
+  const relayout = () => { fitIntro(); placeRests(); };
+  relayout();
+  window.addEventListener('resize', relayout);
+  if (document.fonts) document.fonts.ready.then(relayout);
+
   /* ---- reveal on scroll ---- */
   const revealer = new IntersectionObserver((entries) => {
     entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('in'); revealer.unobserve(en.target); } });

@@ -594,6 +594,14 @@ footer .social { display: flex; gap: 10px; }
 }
 .to-top.show { opacity: 1; transform: none; pointer-events: auto; }
 
+/* ---------- Resting points ---------------------------------------------- */
+/* Sections that fit one screen (marked .rest by main.js, which also centres them with blank space around)
+   are gentle snap points: scrolling that stops near one settles on it; long sections scroll freely. */
+@media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+  html { scroll-snap-type: y proximity; }
+  .rest { scroll-snap-align: start; }
+}
+
 /* ---------- Hover: the card being looked at grows slightly (no tilt) ----- */
 .feature, .card, .tl-card { transition: opacity .6s ease, transform .3s cubic-bezier(.2, .7, .2, 1), border-color .2s, box-shadow .2s; }
 .tl-card:hover { border-color: var(--accent); box-shadow: var(--shadow); }
