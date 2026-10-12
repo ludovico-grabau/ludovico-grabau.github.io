@@ -192,27 +192,18 @@
     }
   }
 
-  /* ---- resting points: a section whose content fits one screen gets equal blank space above and below, so at
-         its snap point (CSS snaps to .rest) it sits centred with nothing else in view; long sections scroll freely ---- */
-  const restSections = ['#about', '#education', '#contact'].map((id) => $(id));
-  const workSection = $('#work'), eduSection = $('#education');
+  /* ---- one-screen sections: a section whose content fits the window gets equal blank space above and below,
+         so there is a scroll position where it fills the view alone (no snapping: the scroll stays free) ---- */
+  const centred = ['#about', '#education', '#contact'].map((id) => $(id));
   const port = () => window.innerHeight - (parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0);
   function placeRests() {
-    const on = matchMedia('(min-width: 901px)').matches && !reduceMotion.matches;
-    restSections.forEach((sec) => {
+    const desktop = matchMedia('(min-width: 901px)').matches;
+    centred.forEach((sec) => {
       sec.style.paddingTop = sec.style.paddingBottom = '';
-      const room = port() - sec.querySelector('.wrap').offsetHeight, fits = on && room >= 48;
-      if (fits) sec.style.paddingTop = sec.style.paddingBottom = `${room / 2}px`;
-      sec.classList.toggle('rest', fits);
+      const room = port() - sec.querySelector('.wrap').offsetHeight;
+      if (desktop && room >= 48) sec.style.paddingTop = sec.style.paddingBottom = `${room / 2}px`;
     });
-    // the intro and Highlights are already sized for one screen: they only need the resting point
-    hero.classList.toggle('rest', on && hero.offsetTop + vitals.offsetTop + vitals.offsetHeight <= window.innerHeight);
-    workSection.classList.toggle('rest', on && workSection.offsetHeight - parseFloat(getComputedStyle(workSection).paddingBottom) <= port());
   }
-  // an open course list makes Degrees taller than the screen: stop resting there (the spacing stays, nothing jumps)
-  $('#eduGrid').addEventListener('toggle', () => {
-    if (eduSection.style.paddingTop) eduSection.classList.toggle('rest', eduSection.offsetHeight <= port() + 1);
-  }, true);
 
   const relayout = () => { fitIntro(); placeRests(); };
   relayout();
