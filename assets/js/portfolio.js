@@ -311,5 +311,59 @@
   }
   lb.addEventListener('click', (e) => { if (e.target === lb || e.target.closest('#lbClose') || e.target.id === 'lbImg') lb.close(); });
 
+  /* ---------- everything on the site as plain text: built in the visitor's browser on click, from the same data
+     the page shows (no extra file is published, and like the site it holds no phone number or address) ---------- */
+  function siteAsText() {
+    const P = window.PROFILE, L = P.links, site = 'https://ludovico-grabau.github.io/', out = [];
+    const line = (s = '') => out.push(s);
+    const head = (s) => { line(); line(); line(s.toUpperCase()); line('='.repeat(s.length)); };
+    line(P.name); line(P.role); line(P.location);
+    line(`E-mail: ${L.email}`); line(`LinkedIn: ${L.linkedin}`); line(`GitHub: ${L.github}`); line(`Website: ${site}`);
+    if (P.cv) line(`CV (PDF): ${new URL(P.cv, site).href}`);
+    line(`Exported from the website on ${new Date().toISOString().slice(0, 10)}.`);
+    head('Profile');
+    line(P.pitch); P.about.forEach((x) => { line(); line(x); });
+    head('Languages');
+    P.languages.forEach((l) => line(`- ${l.name}: ${l.level}`));
+    head('Work & research');
+    P.experience.forEach((x) => { line(); line(`${x.title}, ${x.org}`); line(`${x.period} · ${x.place}`); x.points.forEach((pt) => line(`- ${pt}`)); });
+    head('Education');
+    P.education.forEach((d) => {
+      line(); line(d.degree); line(`${d.school} · ${d.place} · ${d.period}`); line(`Thesis: ${d.thesis}`);
+      if (d.gpa) line(`GPA: ${d.gpa}`);
+      line(`Courses taken (${d.courses.reduce((n, t) => n + t.list.length, 0)}):`);
+      d.courses.forEach((t) => line(`  ${t.term}: ${t.list.join(', ')}`));
+    });
+    head('Skills');
+    P.skills.forEach((g) => line(`- ${g.group}: ${g.items.join(', ')}`));
+    head(`Projects (${PROJECTS.length})`);
+    for (const lvl of ['msc', 'bsc', 'personal']) {
+      const list = PROJECTS.filter((p) => p.level === lvl).sort((a, b) => b.date.localeCompare(a.date));
+      line(); line(`--- ${LEVEL[lvl]} (${list.length}) ---`);
+      list.forEach((p) => {
+        line(); line(p.title);
+        line([p.kind, p.institution, p.course, p.period].filter(Boolean).join(' · '));
+        if (p.team) line(`Team: ${p.team}`);
+        line(p.summary);
+        (p.description || []).forEach((x) => line(x));
+        if (p.metrics?.length) line(`Key results: ${p.metrics.join('; ')}`);
+        if (p.highlights?.length) { line('Highlights:'); p.highlights.forEach((h) => line(`- ${h}`)); }
+        if (p.parts?.length) { line(p.kind === 'Coursework' || p.kind === 'Lab series' ? 'What I did:' : 'Parts:'); p.parts.forEach((x) => line(`- ${x.title}: ${x.text}`)); }
+        if (p.tech?.length) line(`Tech: ${p.tech.join(', ')}`);
+        if (p.domains?.length) line(`Domains: ${p.domains.join(', ')}`);
+        (p.links || []).forEach((l) => line(`${l.label}: ${l.href}`));
+        line(`Page: ${site}#project/${p.id}`);
+      });
+    }
+    return out.join('\n') + '\n';
+  }
+  $('#exportTxt').addEventListener('click', () => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([siteAsText()], { type: 'text/plain;charset=utf-8' }));
+    a.download = 'Ludovico_Grabau_portfolio.txt';
+    document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  });
+
   window.observeReveal && window.observeReveal();
 })();
