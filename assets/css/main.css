@@ -394,7 +394,7 @@ a.p-badge:hover { border-color: var(--accent); color: var(--text-2); }
 .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; }  /* opening one course list must not stretch the other box */
 .edu { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; display: flex; flex-direction: column; gap: 10px; }
 .edu-top { display: flex; flex-direction: column; gap: 10px; }  /* min-height equalised in main.js so both separators line up */
-.edu-cta { margin-top: auto; }  /* the "Open the thesis" buttons sit at the same height in both boxes */
+.edu-cta { margin-top: auto; padding-top: 10px; }  /* a breath after the GPA; the "Open the thesis" buttons sit at the same height in both boxes */
 .edu .period { color: var(--muted); font-size: .9rem; }
 .edu h3 { font-size: 1.3rem; }
 .edu .school { color: var(--accent); font-weight: 700; }
