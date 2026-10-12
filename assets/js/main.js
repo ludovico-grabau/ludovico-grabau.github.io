@@ -27,6 +27,13 @@
     if (e.target.closest('a')) { nav.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); }
   });
 
+  // logo: a signal crosses the perceptron once after load and once each time the pointer enters it
+  const mesh = $('.brand .mesh'), lastNode = mesh.querySelector('.nodes circle:last-child');
+  const fire = () => { mesh.classList.remove('firing'); void mesh.getBoundingClientRect(); mesh.classList.add('firing'); };
+  mesh.addEventListener('animationend', (e) => { if (e.target === lastNode) mesh.classList.remove('firing'); });
+  $('.brand').addEventListener('mouseenter', fire);
+  setTimeout(fire, 1100);
+
   const toTop = $('#toTop');
   const onScroll = () => {
     const y = window.scrollY;
