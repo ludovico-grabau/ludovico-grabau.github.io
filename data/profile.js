@@ -128,7 +128,7 @@ window.PROFILE = {
       school: 'HEPIA, Geneva School of Landscape, Engineering and Architecture',
       place: 'Geneva',
       period: 'Sep 2020 – Sep 2023',
-      thesis: 'AI & conversational agents in a narrative video-game experience (Unity + GPT)',
+      thesis: 'AI & conversational agents in a narrative 3D experience (Unity + GPT)',
       thesisProject: 'bsc-thesis',
       courses: [
         { term: 'Year 1', list: ['Sequential Programming in C', 'Algorithms', 'Computer Architecture', 'Logic Systems', 'Microcontroller Programming', 'Embedded Systems Prototyping', 'Mathematics for IT', 'Applied Mathematics', 'Physics for Engineering', 'Network Fundamentals', 'Telecommunications Fundamentals', 'Information Security & Cryptography', 'History & Society of Computing'] },
