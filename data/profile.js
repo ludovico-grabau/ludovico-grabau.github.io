@@ -126,7 +126,7 @@ window.PROFILE = {
     },
     {
       degree: 'Bachelor of Science HES-SO in Computer Science and Communication Systems (software engineering)',
-      school: 'HEPIA, Geneva School of Landscape, Engineering and Architecture',
+      school: 'HEPIA, Geneva University of Applied Sciences (HES-SO)',
       place: 'Geneva',
       period: 'Sep 2020 – Sep 2023',
       thesis: 'Large Language Models as Conversational Agents in 3D Narrative Experiences',
